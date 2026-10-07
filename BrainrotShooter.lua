@@ -6,7 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local LocalPlayer = Players.LocalPlayer
 
-print("[BrainrotFarm] Starting v2.6...")
+print("[BrainrotFarm] Starting v2.8...")
 
 --------------------------------------------------------------------------------
 -- CONFIG (tune to taste)
@@ -16,10 +16,10 @@ local Config = {
     ShotsPerVolley = 3,     -- shots per volley (was 10)
     VolleyDelay = 0.12,     -- delay between volleys (was 0.02)
     KillTimeout = 20,       -- give up on a target after this many seconds
-    AttackDistance = 35,    -- stand this far from target while shooting (safer)
+    AttackDistance = 10,    -- stand this far from target while shooting (closer)
     RetreatHealth = 0.35,   -- retreat to safe zone if HP drops below this fraction
     RunSpeed = 500,         -- safe-zone return speed (outrun the chase wave)
-    SafeZone = Vector3.new(67.571, 32.919, -122.604),
+    SafeZone = Vector3.new(77.571, 32.919, -122.604), -- shifted +10 on X (right)
     BlacklistTime = 60,     -- ignore failed targets for this long
     WeaponName = "RPK-74",
 }
@@ -835,4 +835,4 @@ end)
 --------------------------------------------------------------------------------
 setStatus("Idle")
 updateDynamicMenu()
-print("[BrainrotFarm] v2.6 loaded - UI ready")
+print("[BrainrotFarm] v2.8 loaded - UI ready")
