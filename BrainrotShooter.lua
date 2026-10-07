@@ -6,7 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local LocalPlayer = Players.LocalPlayer
 
-print("[BrainrotFarm] Starting v2.5...")
+print("[BrainrotFarm] Starting v2.6...")
 
 --------------------------------------------------------------------------------
 -- CONFIG (tune to taste)
@@ -776,6 +776,7 @@ function runFarmCycle(selectedTarget)
     if loopIsActive then return end
     if not selectedTarget or not selectedTarget.Parent then return end
     print("[BrainrotFarm] Cycle start: " .. tostring(selectedTarget.Name))
+    ensureWeaponIsEquipped() -- weapon ready before teleport/shoot
     loopIsActive = true
     local ok, err = xpcall(function() farmBody(selectedTarget) end,
         function(e) return debug.traceback(tostring(e)) end)
@@ -816,7 +817,7 @@ end
 
 task.spawn(function()
     while true do
-        task.wait(1)
+        task.wait(2) -- 2s breather between auto-farm cycles
         if autoFarmEnabled and not loopIsActive then
             local target = getNearestMutatedTarget()
             if target then
@@ -834,4 +835,4 @@ end)
 --------------------------------------------------------------------------------
 setStatus("Idle")
 updateDynamicMenu()
-print("[BrainrotFarm] v2.5 loaded - UI ready")
+print("[BrainrotFarm] v2.6 loaded - UI ready")
