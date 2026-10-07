@@ -1,8 +1,3 @@
--- BRAINROT FARM - IMPROVED v2.0
--- Mutated brainrot auto-farmer: teleport > shoot > catch > return to safe zone
--- Fixes: loop-lock bug, debounced menu, auto-farm mode, distance filter,
---        toned-down fire rate, run-back hang fix, blacklist, mobile UI
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SoundService = game:GetService("SoundService")
@@ -11,7 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local LocalPlayer = Players.LocalPlayer
 
-print("[BrainrotFarm] Starting v2.4...")
+print("[BrainrotFarm] Starting v2.5...")
 
 --------------------------------------------------------------------------------
 -- CONFIG (tune to taste)
@@ -241,7 +236,10 @@ screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.Parent = targetUI
 
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 300, 0, 310)
+-- compact heights: collapsed hides the 130px target list + its padding
+local FRAME_H_COLLAPSED = 172
+local FRAME_H_EXPANDED = 310
+MainFrame.Size = UDim2.new(0, 300, 0, FRAME_H_COLLAPSED)
 MainFrame.Position = UDim2.new(0, 10, 0, 120)
 MainFrame.BackgroundColor3 = Theme.Blue
 MainFrame.BorderSizePixel = 0
@@ -452,6 +450,12 @@ end
 
 DropdownBtn.MouseButton1Click:Connect(function()
     ScrollFrame.Visible = not ScrollFrame.Visible
+    -- grow/shrink the frame with the target list
+    if ScrollFrame.Visible then
+        MainFrame.Size = UDim2.new(0, 300, 0, FRAME_H_EXPANDED)
+    else
+        MainFrame.Size = UDim2.new(0, 300, 0, FRAME_H_COLLAPSED)
+    end
 end)
 
 --------------------------------------------------------------------------------
@@ -483,6 +487,7 @@ local targetButtons = {} -- [instance] = button
 local function onTargetSelected(item)
     if loopIsActive then return end
     ScrollFrame.Visible = false
+    MainFrame.Size = UDim2.new(0, 300, 0, FRAME_H_COLLAPSED)
     task.spawn(function() runFarmCycle(item) end)
 end
 
@@ -829,4 +834,4 @@ end)
 --------------------------------------------------------------------------------
 setStatus("Idle")
 updateDynamicMenu()
-print("[BrainrotFarm] v2.4 loaded - UI ready")
+print("[BrainrotFarm] v2.5 loaded - UI ready")
